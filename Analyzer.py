@@ -3,7 +3,6 @@ from datetime import datetime
 import json
 import os
 
-
 def loadJsonFile(file):
     f = open(file)
     data = json.load(f)
@@ -16,8 +15,9 @@ def exportDataToTextFile(file, data):
 
 def GetInfoFromUsername(target_username):
     # Config credentiels
-    print("[Debug] Login...")
     L = instaloader.Instaloader()
+    L.context.user_agent = 'Mozilla/5.0 (Linux; Android 12; vivo 1939 Build/SP1A.210812.003; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/103.0.5060.71 Mobile Safari/537.36 Instagram 244.0.0.17.110 Android (31/12; 480dpi; 1080x2278; vivo; vivo 1939; 2004; qcom; en_US; 383877305)'
+    print("[Debug] Login...")
     L.login("USERNAME", "PASSWORD")
     print("[Debug] Login successfuly")
 
@@ -84,54 +84,63 @@ def compareDataFiles():
     new_file = loadJsonFile("save/" + files[int(select_new_file_idx)])
 
     print("")
-    print("==========================================================")
-    # Loose follower
+    print("======================[ Followers lose ]=========================")
+    # Lose follower
     for user_id in base_file["followers_id_list"]:
         if user_id not in new_file["followers_id_list"]:
-            print("[- follower] " + user_id)
-    print("==========================================================")
+            print(user_id)
+    print("======================[ Followers get  ]=========================")
     # Get follower
     for user_id in new_file["followers_id_list"]:
         if user_id not in base_file["followers_id_list"]:
-            print("[+ follower] " + user_id)
-    print("==========================================================")
-    # Loose followee
+            print(user_id)
+    print("======================[ Followees lose ]=========================")
+    # Lose followee
     for user_id in base_file["followees_id_list"]:
         if user_id not in new_file["followees_id_list"]:
-            print("[- followee] " + user_id)
-    print("==========================================================")
+            print(user_id)
+    print("======================[ Followees get  ]=========================")
     # Get followee
     for user_id in new_file["followees_id_list"]:
         if user_id not in base_file["followees_id_list"]:
-            print("[+ followee] " + user_id)
-    print("==========================================================")
+            print(user_id)
+    print("=================================================================")
 
-#Header
-print("==========================================================")
-print("                             _                     ")
-print("           /\               | |                    ")
-print("          /  \   _ __   __ _| |_   _ ___  ___ _ __ ")
-print("         / /\ \ | '_ \ / _` | | | | / __|/ _ \ '__|")
-print("        / ____ \| | | | (_| | | |_| \__ \  __/ |   ")
-print("       /_/    \_\_| |_|\__,_|_|\__, |___/\___|_|   ")
-print("                                __/ |              ")
-print("           NothingElse.fr      |___/               ")
-print("==========================================================")
-print("[Python Script] Instagram followers & followees analyser.")
-print("==========================================================")
-print("")
+def header():
+    print("=================================================================")
+    print("                                 _                     ")
+    print("               /\               | |                    ")
+    print("              /  \   _ __   __ _| |_   _ ___  ___ _ __ ")
+    print("             / /\ \ | '_ \ / _` | | | | / __|/ _ \ '__|")
+    print("            / ____ \| | | | (_| | | |_| \__ \  __/ |   ")
+    print("           /_/    \_\_| |_|\__,_|_|\__, |___/\___|_|   ")
+    print("                                    __/ |              ")
+    print("               NothingElse.fr      |___/               ")
+    print("=================================================================")
+    print("[Python Script] Instagram followers & followees analyser.")
+    print("=================================================================")
+    print("")
 
-# Select choice
-print("[1] Save data from IG username")
-print("[2] Compare saves")
-print("")
-choice_resp = input("[input] Select choice : ")
+def choice():
+    # Select choice
+    print("[1] Save data from IG username")
+    print("[2] Compare saves")
+    print("")
+    choice_resp = input("[input] Select choice : ")
 
-if(choice_resp == "1"):
-    target_username = input("[input] What username : ")
-    GetInfoFromUsername(target_username)
-elif(choice_resp == "2"):
-    compareDataFiles()
-else:
-    print("[Error] Unknown choice")
-exit()
+    if(choice_resp == "1"):
+        target_username = input("[input] What username : ")
+        GetInfoFromUsername(target_username)
+    elif(choice_resp == "2"):
+        compareDataFiles()
+    else:
+        print("[Error] Unknown choice")
+    print("\n\n")
+
+def main():
+    while 1 :
+        header()
+        choice()
+
+os.system('cls')
+main()
